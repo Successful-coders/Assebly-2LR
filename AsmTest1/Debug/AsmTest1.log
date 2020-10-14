@@ -1,3 +1,0 @@
-﻿Source.obj : error LNK2019: ссылка на неразрешенный внешний символ @FUNC@8 в функции _main
-Source1.obj : error LNK2001: неразрешенный внешний символ "__CFUNC"
-C:\Users\Жопчики\Desktop\Даша\projects with git\asm 2 lb\asm\MnxoidAsmExperiments\Debug\AsmTest1.exe : fatal error LNK1120: неразрешенных внешних элементов: 2

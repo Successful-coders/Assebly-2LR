@@ -1,0 +1,60 @@
+Microsoft (R) Macro Assembler Version 14.27.29110.0	    10/14/20 19:52:23
+main.asm						     Page 1 - 1
+
+
+				.686
+				.model flat, C
+				;.stack 4096
+
+				extern _val	:	dword;
+
+ 00000000			.data
+
+ 00000000			.code
+
+ 00000000			_copy proc
+ 00000000  C7 05 00000000 E		mov		_val, 4
+	   00000004
+ 0000000A  C3				ret
+ 0000000B			_copy endp
+
+				END
+Microsoft (R) Macro Assembler Version 14.27.29110.0	    10/14/20 19:52:23
+main.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000000 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000000B Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+_copy  . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000000B Public C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000001h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+_val . . . . . . . . . . . . . .	DWord	 00000000 FLAT	External C
+
+	   0 Warnings
+	   0 Errors

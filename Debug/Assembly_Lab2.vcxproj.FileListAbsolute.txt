@@ -1,0 +1,2 @@
+D:\VsProj\Assembly_Lab2\Debug\Assembly_Lab2.exe
+D:\VsProj\Assembly_Lab2\Debug\Assembly_Lab2.pdb
