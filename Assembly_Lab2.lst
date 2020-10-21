@@ -1,25 +1,47 @@
-Microsoft (R) Macro Assembler Version 14.27.29110.0	    10/14/20 19:52:23
+Microsoft (R) Macro Assembler Version 14.24.28316.0	    10/15/20 17:19:25
 main.asm						     Page 1 - 1
 
 
-				.686
-				.model flat, C
-				;.stack 4096
+				.386
+				.model flat
+				.stack 4096
 
-				extern _val	:	dword;
+				;extern  lstrlenA@4: PROC	; функция определения длины строки
 
  00000000			.data
-
+ 00000000 00000000		flenght	dd 0
+ 00000004 00000000		slenght	dd 0
+ 00000008 00000000		string dd 0
+ 0000000C 00000000		strin2 dd 0
  00000000			.code
 
- 00000000			_copy proc
- 00000000  C7 05 00000000 E		mov		_val, 4
-	   00000004
- 0000000A  C3				ret
- 0000000B			_copy endp
+ 00000000			@FUNC@20 proc
+ 00000000  55				push ebp ;сохраняем ebp при вызове
+ 00000001  8B EC			mov ebp, esp ;устанавливаем новое значение ebp
 
-				END
-Microsoft (R) Macro Assembler Version 14.27.29110.0	    10/14/20 19:52:23
+ 00000003  01 0D 00000008 R		add string, ecx
+
+					;длина строки должна быть больше нуля
+ 00000009  01 15 00000000 R		add flenght, edx
+ 0000000F  83 3D 00000000 R		cmp flenght, 0
+	   00
+ 00000016  76 13			jbe error
+
+ 00000018  33 C0			xor eax, eax
+ 0000001A  8B 45 08			mov eax, [ebp]+8
+
+ 0000001D  33 D2			xor edx, edx
+ 0000001F  8B 55 10			mov edx, [ebp]+16
+ 00000022  83 3D 00000004 R		cmp slenght, 0
+	   00
+ 00000029  76 00			jbe error
+ 0000002B				error:
+ 0000002B  5D					pop ebp
+ 0000002C  B8 00000000				mov eax, 0
+ 00000031  C2 000C				ret 12
+ 00000034			@FUNC@20 endp
+				end
+Microsoft (R) Macro Assembler Version 14.24.28316.0	    10/15/20 17:19:25
 main.asm						     Symbols 2 - 1
 
 
@@ -30,15 +52,17 @@ Segments and Groups:
                 N a m e                 Size     Length   Align   Combine Class
 
 FLAT . . . . . . . . . . . . . .	GROUP
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000000 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 0000000B Para	  Public  'CODE'	
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 DWord	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000010 DWord	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000034 DWord	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
 
                 N a m e                 Type     Value    Attr
 
-_copy  . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000000B Public C
+@FUNC@20 . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000034 Public
+  error  . . . . . . . . . . . .	L Near	 0000002B _TEXT	
 
 
 Symbols:
@@ -47,14 +71,17 @@ Symbols:
 
 @CodeSize  . . . . . . . . . . .	Number	 00000000h   
 @DataSize  . . . . . . . . . . .	Number	 00000000h   
-@Interface . . . . . . . . . . .	Number	 00000001h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
 @Model . . . . . . . . . . . . .	Number	 00000007h   
 @code  . . . . . . . . . . . . .	Text   	 _TEXT
 @data  . . . . . . . . . . . . .	Text   	 FLAT
 @fardata?  . . . . . . . . . . .	Text   	 FLAT
 @fardata . . . . . . . . . . . .	Text   	 FLAT
 @stack . . . . . . . . . . . . .	Text   	 FLAT
-_val . . . . . . . . . . . . . .	DWord	 00000000 FLAT	External C
+flenght  . . . . . . . . . . . .	DWord	 00000000 _DATA	
+slenght  . . . . . . . . . . . .	DWord	 00000004 _DATA	
+strin2 . . . . . . . . . . . . .	DWord	 0000000C _DATA	
+string . . . . . . . . . . . . .	DWord	 00000008 _DATA	
 
 	   0 Warnings
 	   0 Errors
