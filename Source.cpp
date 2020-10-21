@@ -5,7 +5,7 @@
 #include <string>
 
 
-extern "C" int __fastcall FUNC(char *firststring, int fLenght, char *secondstring,int sLenght, int pos);
+extern "C" int __fastcall FUNC(int fLenght, int sLenght, char *firststring,  char *secondstring, int pos);
 
 void Error()
 {
@@ -55,7 +55,7 @@ void main()
 	printf("Enter second string:\n");
 	scanf("%s", string2);
 
-	pos = FUNC(string1, strlen(string1), string2, strlen(string2), pos);
+	pos = FUNC(strlen(string1),strlen(string2),string1,  string2,  pos);
 	if (pos == -1)
 	{
 		printf("Incorrect input data.");
