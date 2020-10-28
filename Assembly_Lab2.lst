@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/28/20 19:08:08
+Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/28/20 19:31:48
 main.asm						     Page 1 - 1
 
 
@@ -21,65 +21,71 @@ main.asm						     Page 1 - 1
 
 					;длина второй строки должна быть больше длины первой строки
  00000003  3B D1			cmp edx, ecx
- 00000005  72 6E			jb error
+ 00000005  72 74			jb error
 
 					;длина строки должна быть больше нуля
  00000007  01 0D 00000000 R		add flenght, ecx
  0000000D  83 3D 00000000 R		cmp flenght, 0
 	   00
- 00000014  76 5F			jbe error
+ 00000014  76 65			jbe error
 
 					; длина второй строки
  00000016  01 15 00000004 R		add slenght, edx
  0000001C  83 3D 00000004 R		cmp slenght, 0
 	   00
- 00000023  76 50			jbe error
+ 00000023  76 56			jbe error
  00000025  01 15 00000008 R		add help, edx
 
-					;add string1, [ebp]+4 строка приемник, откуда берем символы
+					;add string1, [ebp]+8 строка приемник, откуда берем символы
 				 
-					;add string2, [ebp]+8 сттрока в которой ищем
+					;add string2, [ebp]+12 сттрока в которой ищем
 
 					;[ebp+16] - pos 
 					
- 0000002B  8B 75 0C			mov esi, [ebp]+12;вторая строка
- 0000002E  8B 7D 08			mov edi, [ebp]+8;первая строка
- 00000031  33 C0			xor eax, eax
- 00000033  33 E4			xor esp, esp
- 00000035			FindSymbol:
- 00000035  8A 07			mov al,[edi]
- 00000037  8A 0E			mov cl, [esi]
- 00000039  3A C1			cmp al, cl
- 0000003B  74 35			je found
- 0000003D  46				inc esi
- 0000003E  FF 0D 00000004 R		dec slenght
- 00000044  83 3D 00000004 R		cmp slenght, 0
+ 0000002B  8B 75 0C			mov esi, [ebp]+12	;вторая строка
+ 0000002E  8B 7D 08			mov edi, [ebp]+8	;первая строка
+ 00000031  33 C0			xor eax, eax	;очищаем для заполнения символов
+ 00000033  33 E4			xor esp, esp	;очищаем для формирования индекса, чтобы потом вывести индекс символа первой строки, который будем выводить, если найдем
+ 00000035			FindSymbol: ;ищем символ
+				;работает
+ 00000035  8A 07			mov al,[edi]	;берем символ первой строки 
+ 00000037  8A 0E			mov cl, [esi]	;берем символ второй строки
+ 00000039  3A C1			cmp al, cl	;сравниваем два символа
+ 0000003B  74 35			je found	;если символы равны, то переходим в found
+ 0000003D  46				inc esi		; переходим на следующий символ второй строки
+ 0000003E  FF 0D 00000004 R		dec slenght	; уменьшаем количесвто обрабатываемых символов
+ 00000044  83 3D 00000004 R		cmp slenght, 0	;сравниваем количество символов второй строки с нулем
 	   00
- 0000004B  77 E8			ja FindSymbol
-					
- 0000004D  47				inc edi
- 0000004E  8B 75 0C			mov esi, [ebp]+12
- 00000051  01 15 00000004 R		add slenght, edx
- 00000057  83 C4 01			add esp ,1
- 0000005A  FF 0D 00000000 R		dec flenght
- 00000060  83 3D 00000000 R		cmp flenght, 0
-	   00
- 00000067  77 CC			ja FindSymbol
+ 0000004B  77 E8			ja FindSymbol	;если символы еще есть, переходим к ним
 
+					;если символы во второй строке закончились, переходим дальше
+ 0000004D  47				inc edi ;переходим на следующий символ первой строки
+ 0000004E  8B 75 0C			mov esi, [ebp]+12	;возвращаем в регистр esi вторую строку, чтобы снова обработать ее в сравнении с другим символом
+ 00000051  01 15 00000004 R		add slenght, edx	;возвращаем в переменную slenght максимальное кол-во символов второй строки
+ 00000057  83 C4 01			add esp ,1		;увеличиваем индекс на единицу
+ 0000005A  FF 0D 00000000 R		dec flenght		;уменьшаем кол-во символов первой строки
+ 00000060  83 3D 00000000 R		cmp flenght, 0	;проверяем закончились ли символы
+	   00
+ 00000067  77 CC			ja FindSymbol	;если не закончились, переходим к дальнейшему анализу
+
+				;добавить выход когда ничего не нашли
  00000069  5D				pop ebp
  0000006A  B8 00000001			mov eax,1
  0000006F  C2 0014			ret 20
+				;добавить когда нашли
 
  00000072			found:
- 00000072  C2 0001			ret 1
+ 00000072  5D				pop ebp
+ 00000073  B8 00000000			mov eax, 0
+ 00000078  C2 0014			ret 20
 
- 00000075				error:
- 00000075  5D					pop ebp
- 00000076  B8 00000000				mov eax, 0
- 0000007B  C2 000C				ret 12
- 0000007E			@FUNC@20 endp
+ 0000007B				error:
+ 0000007B  5D					pop ebp
+ 0000007C  B8 00000000				mov eax, 0
+ 00000081  C2 0014				ret 20
+ 00000084			@FUNC@20 endp
 				end
-Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/28/20 19:08:08
+Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/28/20 19:31:48
 main.asm						     Symbols 2 - 1
 
 
@@ -91,17 +97,17 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 _DATA  . . . . . . . . . . . . .	32 Bit	 00000018 DWord	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 0000007E DWord	  Public  'CODE'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000084 DWord	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
 
                 N a m e                 Type     Value    Attr
 
-@FUNC@20 . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000007E Public
+@FUNC@20 . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000084 Public
   FindSymbol . . . . . . . . . .	L Near	 00000035 _TEXT	
   found  . . . . . . . . . . . .	L Near	 00000072 _TEXT	
-  error  . . . . . . . . . . . .	L Near	 00000075 _TEXT	
+  error  . . . . . . . . . . . .	L Near	 0000007B _TEXT	
 
 
 Symbols:

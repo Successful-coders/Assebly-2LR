@@ -30,45 +30,48 @@ pos dd 0
 	jbe error
 	add help, edx
 
-	;add string1, [ebp]+4 строка приемник, откуда берем символы
+	;add string1, [ebp]+8 строка приемник, откуда берем символы
  
-	;add string2, [ebp]+8 сттрока в которой ищем
+	;add string2, [ebp]+12 сттрока в которой ищем
 
 	;[ebp+16] - pos 
 	
-	mov esi, [ebp]+12;вторая строка
-	mov edi, [ebp]+8;первая строка
-	xor eax, eax
-	xor esp, esp
-FindSymbol:
+	mov esi, [ebp]+12	;вторая строка
+	mov edi, [ebp]+8	;первая строка
+	xor eax, eax	;очищаем для заполнения символов
+	xor esp, esp	;очищаем для формирования индекса, чтобы потом вывести индекс символа первой строки, который будем выводить, если найдем
+FindSymbol: ;ищем символ
 ;работает
-	mov al,[edi]
-	mov cl, [esi]
-	cmp al, cl
-	je found
-	inc esi
-	dec slenght
-	cmp slenght, 0
-	ja FindSymbol
-	
-	inc edi
-	mov esi, [ebp]+12
-	add slenght, edx
-	add esp ,1
-	dec flenght
-	cmp flenght, 0
-	ja FindSymbol
+	mov al,[edi]	;берем символ первой строки 
+	mov cl, [esi]	;берем символ второй строки
+	cmp al, cl	;сравниваем два символа
+	je found	;если символы равны, то переходим в found
+	inc esi		; переходим на следующий символ второй строки
+	dec slenght	; уменьшаем количесвто обрабатываемых символов
+	cmp slenght, 0	;сравниваем количество символов второй строки с нулем
+	ja FindSymbol	;если символы еще есть, переходим к ним
+
+	;если символы во второй строке закончились, переходим дальше
+	inc edi ;переходим на следующий символ первой строки
+	mov esi, [ebp]+12	;возвращаем в регистр esi вторую строку, чтобы снова обработать ее в сравнении с другим символом
+	add slenght, edx	;возвращаем в переменную slenght максимальное кол-во символов второй строки
+	add esp ,1		;увеличиваем индекс на единицу
+	dec flenght		;уменьшаем кол-во символов первой строки
+	cmp flenght, 0	;проверяем закончились ли символы
+	ja FindSymbol	;если не закончились, переходим к дальнейшему анализу
+
 ;добавить выход когда ничего не нашли
 	pop ebp
 	mov eax,1
 	ret 20
 ;добавить когда нашли
+
 found:
-	ret 1
+	ret 20
 
 	error:
 		pop ebp
 		mov eax, 0
-		ret 12
+		ret 20
 @FUNC@20 endp
 end
