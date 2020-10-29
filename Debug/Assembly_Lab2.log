@@ -1,4 +1,3 @@
 ﻿  Source.cpp
 C:\Users\Жопчики\Desktop\Даша\projects with git\2 lab asm\Source.cpp(13,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
-C:\Users\Жопчики\Desktop\Даша\projects with git\2 lab asm\Source.cpp(31,13): warning C4477: "printf_s": в строке форматирования "%i" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "char *"
   Assembly_Lab2.vcxproj -> C:\Users\Жопчики\Desktop\Даша\projects with git\2 lab asm\Debug\Assembly_Lab2.exe

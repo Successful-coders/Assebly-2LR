@@ -14,21 +14,27 @@ void main()
 	char* string1, * string2;
 	string1 = new char[200];
 	string2 = new char[200];
-	int pos = 1;
+	int pos = 0;
 	printf("Enter first string:\n");
 	scanf("%s", string1);
 	printf("Enter second string:\n");
 	scanf("%s", string2);
 
-	
-	if (FUNC(strlen(string1), strlen(string2), string1, string2, pos) == -1)
+	pos = FUNC(strlen(string1), strlen(string2), string1, string2, pos);
+	if (pos == -1)
 	{
 		printf("Incorrect input data.");
 	}
 	else
 	{
-		
-			printf_s("Result: %i", string1);
+		if (pos != 0)
+		{
+			printf_s("Result: %i", pos);
+		}
+		else
+		{
+			printf_s("All letters is including in string");
+		}
 		
 	}
 }
