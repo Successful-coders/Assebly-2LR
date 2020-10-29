@@ -61,17 +61,20 @@ FindSymbol: ;ищем символ
 	ja FindSymbol	;если не закончились, переходим к дальнейшему анализу
 
 ;добавить выход когда ничего не нашли
+	
 	pop ebp
-	mov eax,1
-	ret 20
+	mov eax, 0
+	ret 12
 ;добавить когда нашли
 
 found:
-	ret 20
+	pop ebp
+	mov eax, esp
+	ret 12
 
 	error:
 		pop ebp
-		mov eax, 0
-		ret 20
+		mov eax, -1
+		ret 12
 @FUNC@20 endp
 end

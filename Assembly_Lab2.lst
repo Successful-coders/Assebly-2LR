@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/28/20 19:31:48
+Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/29/20 21:45:46
 main.asm						     Page 1 - 1
 
 
@@ -21,19 +21,19 @@ main.asm						     Page 1 - 1
 
 					;длина второй строки должна быть больше длины первой строки
  00000003  3B D1			cmp edx, ecx
- 00000005  72 74			jb error
+ 00000005  72 75			jb error
 
 					;длина строки должна быть больше нуля
  00000007  01 0D 00000000 R		add flenght, ecx
  0000000D  83 3D 00000000 R		cmp flenght, 0
 	   00
- 00000014  76 65			jbe error
+ 00000014  76 66			jbe error
 
 					; длина второй строки
  00000016  01 15 00000004 R		add slenght, edx
  0000001C  83 3D 00000004 R		cmp slenght, 0
 	   00
- 00000023  76 56			jbe error
+ 00000023  76 57			jbe error
  00000025  01 15 00000008 R		add help, edx
 
 					;add string1, [ebp]+8 строка приемник, откуда берем символы
@@ -51,7 +51,7 @@ main.asm						     Page 1 - 1
  00000035  8A 07			mov al,[edi]	;берем символ первой строки 
  00000037  8A 0E			mov cl, [esi]	;берем символ второй строки
  00000039  3A C1			cmp al, cl	;сравниваем два символа
- 0000003B  74 35			je found	;если символы равны, то переходим в found
+ 0000003B  74 39			je found	;если символы равны, то переходим в found
  0000003D  46				inc esi		; переходим на следующий символ второй строки
  0000003E  FF 0D 00000004 R		dec slenght	; уменьшаем количесвто обрабатываемых символов
  00000044  83 3D 00000004 R		cmp slenght, 0	;сравниваем количество символов второй строки с нулем
@@ -69,23 +69,26 @@ main.asm						     Page 1 - 1
  00000067  77 CC			ja FindSymbol	;если не закончились, переходим к дальнейшему анализу
 
 				;добавить выход когда ничего не нашли
- 00000069  5D				pop ebp
- 0000006A  B8 00000001			mov eax,1
- 0000006F  C2 0014			ret 20
+					
+ 00000069  33 C9			xor ecx, ecx
+ 0000006B  8B CD			mov ecx, ebp
+ 0000006D  59				pop ecx
+ 0000006E  B8 00000000			mov eax, 0
+ 00000073  C2 0004			ret 4
 				;добавить когда нашли
 
- 00000072			found:
- 00000072  5D				pop ebp
- 00000073  B8 00000000			mov eax, 0
- 00000078  C2 0014			ret 20
+ 00000076			found:
+ 00000076  5D				pop ebp
+ 00000077  8B C4			mov eax, esp
+ 00000079  C2 0004			ret 4
 
- 0000007B				error:
- 0000007B  5D					pop ebp
- 0000007C  B8 00000000				mov eax, 0
- 00000081  C2 0014				ret 20
- 00000084			@FUNC@20 endp
+ 0000007C				error:
+ 0000007C  5D					pop ebp
+ 0000007D  B8 FFFFFFFF				mov eax, -1
+ 00000082  C2 0004				ret 4
+ 00000085			@FUNC@20 endp
 				end
-Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/28/20 19:31:48
+Microsoft (R) Macro Assembler Version 14.27.29112.0	    10/29/20 21:45:46
 main.asm						     Symbols 2 - 1
 
 
@@ -97,17 +100,17 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 _DATA  . . . . . . . . . . . . .	32 Bit	 00000018 DWord	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000084 DWord	  Public  'CODE'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000085 DWord	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
 
                 N a m e                 Type     Value    Attr
 
-@FUNC@20 . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000084 Public
+@FUNC@20 . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000085 Public
   FindSymbol . . . . . . . . . .	L Near	 00000035 _TEXT	
-  found  . . . . . . . . . . . .	L Near	 00000072 _TEXT	
-  error  . . . . . . . . . . . .	L Near	 0000007B _TEXT	
+  found  . . . . . . . . . . . .	L Near	 00000076 _TEXT	
+  error  . . . . . . . . . . . .	L Near	 0000007C _TEXT	
 
 
 Symbols:

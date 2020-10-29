@@ -68,7 +68,7 @@ void main()
 		}
 		else
 		{
-			printf_s("All letter in first string including in second string");
+			printf_s("All letter in first string not including in second string");
 		}
 	}
 }
