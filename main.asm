@@ -7,15 +7,15 @@
 	push ebp ;сохраняем ebp при вызове
 	mov ebp, esp ;устанавливаем новое значение ebp
 
-	;длина второй строки должна быть больше длины первой строки
-	cmp edx, ecx
-	jb error
+	cmp ecx, 0
+	je error
+
+	cmp edx, 0
+	je error
 
 	; длина второй строки
 	mov ebx, edx
-	
 
-	
 	mov edi, [ebp]+8	;первая строка
 	mov esi, [ebp]+12	;вторая строка
 	
@@ -46,13 +46,13 @@ found:
 	dec ecx		;уменьшаем кол-во символов первой строки
 	cmp ecx, 0	;проверяем закончились ли символы
 	ja FindSymbol	;если не закончились, переходим к дальнейшему анализу
-
+;все символы нашлись
 	pop ebp
-	mov eax, 0
+	mov eax, -1
 	ret 12
 error:
 		pop ebp
-		mov eax, -1
+		mov eax, -2
 		ret 12
 @FUNC@20 endp
 end

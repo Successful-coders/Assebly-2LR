@@ -1,3 +1,3 @@
 ﻿  Source.cpp
-C:\Users\Жопчики\Desktop\Даша\projects with git\2 lab asm\Source.cpp(13,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+C:\Users\Жопчики\Desktop\Даша\projects with git\2 lab asm\Source.cpp(10,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
   Assembly_Lab2.vcxproj -> C:\Users\Жопчики\Desktop\Даша\projects with git\2 lab asm\Debug\Assembly_Lab2.exe

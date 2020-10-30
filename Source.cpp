@@ -1,13 +1,10 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdlib.h>
 #include <string>
 
 
 extern "C" int __fastcall FUNC(int fLenght, int sLenght, char *firststring,  char *secondstring, int pos);
-
-
  
 void main()
 {
@@ -20,21 +17,24 @@ void main()
 	printf("Enter second string:\n");
 	scanf("%s", string2);
 
+
 	pos = FUNC(strlen(string1), strlen(string2), string1, string2, pos);
-	if (pos == -1)
+	if (pos == -2)
 	{
-		printf("Incorrect input data.");
+		printf("Data transfer problems");
 	}
 	else
 	{
-		if (pos != 0)
+		if (pos != -1)
 		{
 			printf_s("Result: %i", pos);
 		}
 		else
 		{
-			printf_s("All letters is including in string");
+			printf_s("All letters is same");
 		}
-		
+
 	}
+
+
 }
